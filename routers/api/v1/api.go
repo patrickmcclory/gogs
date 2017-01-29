@@ -224,6 +224,10 @@ func RegisterRoutes(m *macaron.Macaron) {
 		}, reqToken())
 
 		// Repositories
+		m.Group("/repositories", func() {
+			m.Get("/:repo_id", repo.GetBySystemId)
+		}, reqToken())
+
 		m.Combo("/user/repos", reqToken()).Get(repo.ListMyRepos).
 			Post(bind(api.CreateRepoOption{}), repo.Create)
 		m.Post("/org/:org/repos", reqToken(), bind(api.CreateRepoOption{}), repo.CreateOrgRepo)
