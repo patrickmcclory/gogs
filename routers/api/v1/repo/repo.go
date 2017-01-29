@@ -267,6 +267,15 @@ func parseOwnerAndRepo(ctx *context.APIContext) (*models.User, *models.Repositor
 	return owner, repo
 }
 
+func GetBySystemId(ctx *context.APIContext) {
+	_, repo := models.GetDeployKeyByID(ctx.ParamsInt64(":repo_id"))
+	if ctx.Written() {
+		return
+	}
+
+	ctx.JSON(200, repo.APIFormat(&api.Permission{true, true, true}))
+}
+
 // https://github.com/gogits/go-gogs-client/wiki/Repositories#get
 func Get(ctx *context.APIContext) {
 	_, repo := parseOwnerAndRepo(ctx)
